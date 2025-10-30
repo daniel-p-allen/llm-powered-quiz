@@ -1,0 +1,16 @@
+// File: MyQuizApp/settings.gradle
+
+pluginManagement {
+    repositories {
+        gradlePluginPortal()   // for the version-catalog/plugins DSL
+        google()
+        mavenCentral()
+    }
+    plugins {
+        // tie your alias(libs.plugins.android.application) to the AGP version
+        id 'com.android.application' version '8.9.1'
+    }
+}
+
+rootProject.name = 'MyQuizApp'
+include ':app'

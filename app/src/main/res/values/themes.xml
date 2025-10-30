@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme -->
+    <style name="Theme.QuizApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- App bar -->
+        <item name="colorPrimary">@color/appbar_color</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Accent (buttons) -->
+        <item name="colorSecondary">@color/accent_green</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <!-- Global background gradient -->
+        <item name="android:windowBackground">@drawable/bg_gradient</item>
+        <item name="android:statusBarColor">@color/bg_gradient_end</item>
+        <item name="android:navigationBarColor">@color/bg_gradient_start</item>
+
+        <!-- Default card style -->
+        <item name="materialCardViewStyle">@style/AppCard</item>
+
+        <!-- Text appearances -->
+        <item name="textAppearanceHeadline1">@style/TextAppearance.QuizApp.Headline1</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.QuizApp.Body1</item>
+    </style>
+
+    <!-- Reusable card with rounded corners & elevation -->
+    <style name="AppCard" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">16dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="android:layout_margin">12dp</item>
+        <item name="cardBackgroundColor">@color/card_bg</item>
+    </style>
+
+    <!-- Notification card overrides with aqua bg -->
+    <style name="NotificationCard" parent="AppCard">
+        <item name="cardBackgroundColor">@color/notification_bg</item>
+    </style>
+
+    <!-- Headline text -->
+    <style name="TextAppearance.QuizApp.Headline1"
+        parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <!-- Body text -->
+    <style name="TextAppearance.QuizApp.Body1"
+        parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+</resources>

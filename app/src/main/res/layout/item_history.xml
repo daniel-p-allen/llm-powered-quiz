@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/AppCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvTimestamp"
+            style="@style/TextAppearance.QuizApp.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12 May 2025, 14:30" />
+
+        <TextView
+            android:id="@+id/tvCounts"
+            style="@style/TextAppearance.QuizApp.Headline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="10 Q / 8✔️ / 2❌" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

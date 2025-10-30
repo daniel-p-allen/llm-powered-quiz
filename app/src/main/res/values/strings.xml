@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MyQuizApp</string>
+    <string name="avatar_desc">User avatar</string>
+    <string name="share">Share</string>
+</resources>

@@ -1,0 +1,52 @@
+# Android / IntelliJ
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+/.idea/shelf
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Build artifacts
+*.apk
+*.aab
+*.ap_
+/build
+/app/build
+/captures
+.externalNativeBuild
+.cxx
+
+# Gradle
+.gradle/
+**/.gradle/
+
+# Signing and Secrets
+*.jks
+*.keystore
+*.pem
+*.key
+*.p12
+keystore.properties
+signing.properties
+.env
+.env.*
+*.env
+google-services.json
+GoogleService-Info.plist
+
+# Logs / Caches
+*.log
+.idea/
+.vscode/
+
+# System and Misc
+Thumbs.db
+*.swp
