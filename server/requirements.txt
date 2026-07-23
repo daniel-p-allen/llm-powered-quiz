@@ -1,0 +1,10 @@
+# What main.py needs — the variant that calls the Hugging Face Router over HTTP.
+#
+# The other three variants (main-pipeline.py, main-directModel.py,
+# main-inferenceclient.py) additionally need transformers, torch and
+# huggingface_hub. Those are deliberately not listed: they pull in several
+# gigabytes and are not required to run the server.
+
+flask>=3.0.0
+python-dotenv>=1.0.0
+requests>=2.31.0

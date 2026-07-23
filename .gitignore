@@ -1,52 +1,87 @@
-# Android / IntelliJ
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-/.idea/shelf
+# One repository, two very different toolchains. The rules are grouped by which
+# half they belong to, and the risky blanket patterns are scoped to a directory
+# rather than left to apply repo-wide.
+#
+# Two things went wrong when these files were merged, both fixed here:
+#
+#   1. The Python half ignored *.json outright. Applied repo-wide that would have
+#      swallowed client/app/src/main/assets/topics.json, which the app needs.
+#   2. The Android rules were anchored to the repository root (/build, /app/build,
+#      /local.properties). Once the Android tree moved under client/ they matched
+#      nothing at all, so build output would have been committed.
 
-# macOS
+# ── Shared ───────────────────────────────────────────────────────────────────
 .DS_Store
 **/.DS_Store
-
-# Build artifacts
-*.apk
-*.aab
-*.ap_
-/build
-/app/build
-/captures
-.externalNativeBuild
-.cxx
-
-# Gradle
-.gradle/
-**/.gradle/
-
-# Signing and Secrets
-*.jks
-*.keystore
-*.pem
-*.key
-*.p12
-keystore.properties
-signing.properties
-.env
-.env.*
-*.env
-google-services.json
-GoogleService-Info.plist
-
-# Logs / Caches
+Thumbs.db
 *.log
+*.swp
+*.tmp
+*.bak
 .idea/
 .vscode/
 
-# System and Misc
-Thumbs.db
-*.swp
+# Credentials. These are never committed in either half — .env.example is the
+# template and is deliberately allowed through.
+.env
+.env.*
+*.env
+!.env.example
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+keystore.properties
+signing.properties
+google-services.json
+GoogleService-Info.plist
+
+# ── Android (client/) ────────────────────────────────────────────────────────
+*.iml
+.gradle
+.gradle/
+**/.gradle/
+client/local.properties
+client/build/
+client/app/build/
+client/captures/
+*.apk
+*.aab
+*.ap_
+.externalNativeBuild
+.cxx
+
+# ── Python (server/) ─────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments, including the layout pip creates when a venv is made in
+# place. These are scoped to server/ because bin/ and lib/ are ordinary names —
+# unscoped they would be a trap for anything added later.
+server/venv/
+server/myenv/
+server/.venv/
+server/include/
+server/lib/
+server/share/
+server/bin/
+server/pyvenv.cfg
+
+# Scoped: the Android half has JSON and config it needs to keep.
+server/**/*.json
+server/**/*.cfg
+server/build/
+server/dist/
+server/*.egg-info/
+.cache/
+
+# Model weights, if a local-inference variant is ever actually run.
+*.h5
+*.pkl
+*.pt
+*.onnx
+*.model
+*.ckpt

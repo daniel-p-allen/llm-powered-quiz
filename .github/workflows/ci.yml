@@ -1,0 +1,90 @@
+name: checks
+
+# Two jobs, deliberately kept apart.
+#
+# `checks` is static and fast: the credential gate, a syntax pass over every
+# Python file including the variants, a shape check on the topics the client
+# ships, and the server test suite. Nothing here touches the network and nothing
+# needs an API key, so it either passes or something is genuinely wrong.
+#
+# `android` builds the debug APK. That means downloading Gradle, the Android
+# Gradle Plugin and the SDK — minutes of downloads from several hosts, and the
+# least predictable part of this repository. It is isolated so that a flaky
+# toolchain install can never mask the deterministic checks above.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: No credentials in the repository
+        run: ./scripts/check-secrets.sh
+
+      - name: Every Python file parses, variants included
+        run: |
+          for f in server/app.py server/variants/*.py; do
+            python -m py_compile "$f" && echo "  ok  $f"
+          done
+
+      - name: The topic list the client ships is valid JSON
+        run: |
+          python - <<'PY'
+          import json
+          with open('client/app/src/main/assets/topics.json') as f:
+              data = json.load(f)
+          assert data, "topics.json must not be empty"
+          print(f"{len(data)} topics, valid JSON")
+          PY
+
+      - name: Install server dependencies
+        run: |
+          pip install -r server/requirements.txt
+          pip install -r server/tests/requirements.txt
+
+      - name: Server test suite
+        run: cd server && python -m pytest tests/ -q
+
+      - name: The server refuses to leak its key
+        run: |
+          if grep -n 'print.*HEADERS' server/app.py; then
+            echo "app.py prints its outbound headers, which contain the API key"
+            exit 1
+          fi
+          echo "  ok  no header logging"
+
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Set up the Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('client/**/*.gradle', 'client/gradle/libs.versions.toml') }}
+
+      - name: Build the debug APK
+        run: cd client && ./gradlew assembleDebug --no-daemon

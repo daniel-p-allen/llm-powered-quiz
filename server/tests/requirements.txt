@@ -1,0 +1,3 @@
+# Test-only dependencies, kept out of requirements.txt so running the server
+# never installs a test framework it does not need.
+pytest>=8.0.0
